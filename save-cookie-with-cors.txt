@@ -1,0 +1,23 @@
+//+++++++++++++ In main js file ++++++++++++++//
+
+app.use(cors({
+origin: 'http://localhost:5173',
+credentials: true
+}));
+
+//++++++++++++ creating cookie +++++++++++++++//
+
+res.cookie("token", token, {
+httpOnly: true,
+// secure: true, // Uncomment when using HTTPS
+sameSite: "Lax",
+});
+
+//++++++++++++ while submitting form in frontend +++++++++++++++//
+
+credentials: 'include'
+// this will written with -- method
+                             headers
+                             body
+                             ......
+
