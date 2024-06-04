@@ -36,11 +36,11 @@ router.post("/userCreate", async (req, res) => {
       });
 
       // Set token in cookie in browser
-      res.cookie("token", token, {
-        httpOnly: true,
-        // secure: true, // Uncomment when using HTTPS
-        sameSite: "lax",
-      });
+      // res.cookie("token", token, {
+      //   httpOnly: true,
+      //   // secure: true, // Uncomment when using HTTPS
+      //   sameSite: "lax",
+      // });
 
       //  Sending response status and data to frontend
       res.status(201).json({
@@ -49,6 +49,7 @@ router.post("/userCreate", async (req, res) => {
           name: createdUser.name,
           email: createdUser.email,
           contact: createdUser.contact,
+          token,
         },
       });
     } catch (err) {
@@ -60,20 +61,6 @@ router.post("/userCreate", async (req, res) => {
       });
     }
   }
-});
-router.post("/logout", (req, res) => {
-  res.cookie("token", "", {
-    httpOnly: true,
-    // secure: true, // Uncomment when using HTTPS
-    sameSite: "lax",
-    expires: new Date(0), // set the cookie to expire immediately
-  });
-
-  //  Sending response status and data to frontend
-  res.status(200).json({
-    success: true,
-    message: "Logged out successfully",
-  });
 });
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -89,11 +76,11 @@ router.post("/login", async (req, res) => {
           });
   
           // Set token in cookie in browser
-          res.cookie("token", token, {
-            httpOnly: true,
-            // secure: true, // Uncomment when using HTTPS
-            sameSite: "lax",
-          });
+          // res.cookie("token", token, {
+          //   httpOnly: true,
+          //   // secure: true, // Uncomment when using HTTPS
+          //   sameSite: "lax",
+          // });
   
           //  Sending response status and data to frontend
           res.status(200).json({
@@ -102,6 +89,7 @@ router.post("/login", async (req, res) => {
               name: findEmail.name,
               email: findEmail.email,
               contact: findEmail.contact,
+              token,
             },
           });
         } else {
