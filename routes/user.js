@@ -35,13 +35,6 @@ router.post("/userCreate", async (req, res) => {
         expiresIn: "15d",
       });
 
-      // Set token in cookie in browser
-      // res.cookie("token", token, {
-      //   httpOnly: true,
-      //   // secure: true, // Uncomment when using HTTPS
-      //   sameSite: "lax",
-      // });
-
       //  Sending response status and data to frontend
       res.status(201).json({
         success: true,
@@ -74,13 +67,6 @@ router.post("/login", async (req, res) => {
           const token = jwt.sign({ email }, config.get("SECRET"), {
             expiresIn: "15d",
           });
-  
-          // Set token in cookie in browser
-          // res.cookie("token", token, {
-          //   httpOnly: true,
-          //   // secure: true, // Uncomment when using HTTPS
-          //   sameSite: "lax",
-          // });
   
           //  Sending response status and data to frontend
           res.status(200).json({
