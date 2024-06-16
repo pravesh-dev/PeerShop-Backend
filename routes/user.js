@@ -15,7 +15,7 @@ router.post("/userCreate", async (req, res) => {
     if (findEmail) {
       return res.status(409).json({
         success: false,
-        message: "Email is already registered"
+        message: "Email is already registered",
       });
     }
 
@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
     if (!findEmail) {
       return res.status(404).json({
         success: false,
-        message: "User is not registered"
+        message: "User is not registered",
       });
     }
 
@@ -75,7 +75,7 @@ router.post("/login", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: "Invalid email or password"
+        message: "Invalid email or password",
       });
     }
 
@@ -106,38 +106,47 @@ router.post("/login", async (req, res) => {
 });
 
 // User update route
-router.post('/update', async (req, res) => {
-  const {name, oldEmail, newEmail, contact, gender} = req.body;
-  const findOldEmail = await userModel.findOne({email: oldEmail});
-  if (!findOldEmail) {
-    return res.status(404).json({
+router.post("/update", async (req, res) => {
+  const { name, oldEmail, newEmail, contact, gender } = req.body;
+  try {
+    const findOldEmail = await userModel.findOne({ email: oldEmail });
+    if (!findOldEmail) {
+      return res.status(404).json({
+        success: false,
+        message: "User is not registered",
+      });
+    }
+
+    const findNewEmail = await userModel.findOne({ email: newEmail });
+    if (findNewEmail) {
+      res.status(409).json({
+        success: false,
+        message: "Email is already registered",
+      });
+    } else {
+      let updateUser = await userModel.findOneAndUpdate(
+        { email: oldEmail },
+        { email: newEmail, name, contact, gender }
+      );
+
+      // Send response with user data and token
+      res.status(200).json({
+        success: true,
+        user: {
+          name: name,
+          email: newEmail,
+          contact: contact,
+          gender: gender,
+        },
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
       success: false,
-      message: "User is not registered"
+      message: "Server Error",
+      error: err.message,
     });
   }
-
-  const findNewEmail = await userModel.findOne({email: newEmail});
-  if (findNewEmail) {
-     res.status(409).json({
-      success: false,
-      message: "Email is already registered"
-    });
-  }
-  else{
-    let updateUser = await userModel.findOneAndUpdate({email: oldEmail}, {email: newEmail, name, contact, gender})
-
-    // Send response with user data and token
-    res.status(200).json({
-      success: true,
-      user: {
-        name: name,
-        email: newEmail,
-        contact: contact,
-        gender: gender,
-      },
-    });
-  }
-
-})
+});
 
 module.exports = router;
