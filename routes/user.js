@@ -7,7 +7,7 @@ const config = require("config");
 
 // User registration route
 router.post("/userCreate", async (req, res) => {
-  const { name, email, contact, password, confirmPassword } = req.body;
+  const { name, email, contact, password } = req.body;
 
   try {
     // Check if email is already registered
@@ -103,5 +103,40 @@ router.post("/login", async (req, res) => {
     });
   }
 });
+
+// User update route
+router.post('/update', async (req, res) => {
+  const {name, oldEmail, newEmail, contact, gender} = req.body;
+  const findOldEmail = await userModel.findOne({email: oldEmail});
+  if (!findOldEmail) {
+    return res.status(404).json({
+      success: false,
+      message: "User is not registered"
+    });
+  }
+
+  const findNewEmail = await userModel.findOne({email: newEmail});
+  if (findNewEmail) {
+     res.status(409).json({
+      success: false,
+      message: "Email is already registered"
+    });
+  }
+  else{
+    let updateUser = await userModel.findOneAndUpdate({email: oldEmail}, {email: newEmail, name, contact, gender})
+
+    // Send response with user data and token
+    res.status(200).json({
+      success: true,
+      user: {
+        name: updateUser.name,
+        email: updateUser.email,
+        contact: updateUser.contact,
+        gender: updateUser.gender,
+      },
+    });
+  }
+
+})
 
 module.exports = router;
