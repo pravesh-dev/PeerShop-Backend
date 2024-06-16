@@ -130,10 +130,10 @@ router.post('/update', async (req, res) => {
     res.status(200).json({
       success: true,
       user: {
-        name: updateUser.name,
-        email: updateUser.email,
-        contact: updateUser.contact,
-        gender: updateUser.gender,
+        name: name,
+        email: newEmail,
+        contact: contact,
+        gender: gender,
       },
     });
   }
