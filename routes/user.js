@@ -91,6 +91,7 @@ router.post("/login", async (req, res) => {
         name: findEmail.name,
         email: findEmail.email,
         contact: findEmail.contact,
+        gender: findEmail.gender,
         token,
       },
     });
