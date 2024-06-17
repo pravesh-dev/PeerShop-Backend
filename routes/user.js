@@ -118,7 +118,7 @@ router.post("/update", async (req, res) => {
     }
 
     const findNewEmail = await userModel.findOne({ email: newEmail });
-    if (findNewEmail) {
+    if (findNewEmail && oldEmail != newEmail) {
       res.status(409).json({
         success: false,
         message: "Email is already registered",
