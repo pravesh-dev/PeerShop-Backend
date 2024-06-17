@@ -149,4 +149,42 @@ router.post("/update", async (req, res) => {
   }
 });
 
+
+//  Delete Account
+
+router.post('/delete', async (req, res)=>{
+  const {email, password} = req.body;
+
+  try{
+    // Find user by email
+  const findEmail = await userModel.findOne({ email });
+  if (!findEmail) {
+    return res.status(404).json({
+      success: false,
+      message: "User is not registered",
+    });
+  }
+
+  // Compare the saved hash with the password submitted by the user
+  const isMatch = await bcrypt.compare(password, findEmail.password);
+  if (!isMatch) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid email or password",
+    });
+  }
+  
+  res.status(200).json({
+    success: true,
+    message: "Successfully deleted the account",
+  });
+  }catch(err){
+    // Catch and handle errors
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+    });
+  }
+})
+
 module.exports = router;
