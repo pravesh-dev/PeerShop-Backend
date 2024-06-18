@@ -9,6 +9,10 @@ const userSchema = {
         type: String,
         default: 'N/A'
     },
+    address: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'address'
+    }
 }
 
 module.exports = mongoose.model('user', userSchema);
