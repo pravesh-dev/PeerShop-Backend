@@ -21,4 +21,10 @@ router.post("/create", async (req, res) => {
         }
   res.send("this is message");
 });
+
+router.post('/data', async(req, res)=>{
+    const {email} = req.body;
+    let user = await userModel.findOne({email}).populate('address');
+    res.send(user.address)
+})
 module.exports = router;
