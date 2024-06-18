@@ -7,6 +7,7 @@ const config = require("config")
 const dataBase = require("./config/mongoose-connection");
 const msgRouter = require("./routes/userMessage");
 const userRouter = require("./routes/user");
+const addressRouter = require('./routes/address')
 
 app.use(cookieParser());
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(cors({
   }));
 
 app.use('/message', msgRouter);
-app.use('/user', userRouter)
+app.use('/user', userRouter);
+app.use('/address', addressRouter);
 
 app.listen(config.get('PORT'));
