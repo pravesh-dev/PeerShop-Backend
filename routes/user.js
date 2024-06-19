@@ -172,7 +172,7 @@ router.post("/delete", async (req, res) => {
         message: "Invalid email or password",
       });
     }
-
+    // deleting user
     let deleteUser = await userModel.deleteOne({email});
     res.status(200).json({
       success: true,
