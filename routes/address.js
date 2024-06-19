@@ -3,6 +3,7 @@ const router = express.Router();
 const addressModel = require("../models/address-model");
 const userModel = require('../models/user-model');
 
+// Creating an address
 router.post("/create", async (req, res) => {
     let { name, email, contact, pincode, locality, address, state, district, landmark, alternateContact, addressType } = req.body;
     let findUser = await userModel.findOne({email});
@@ -22,9 +23,16 @@ router.post("/create", async (req, res) => {
   res.send("this is message");
 });
 
+// Sending all address for the user
 router.post('/data', async(req, res)=>{
     const {email} = req.body;
     let user = await userModel.findOne({email}).populate('address');
     res.send(user.address)
+})
+
+// Deleting the address
+router.post('/delete', async(req, res)=>{
+  const {addressId, userId} = req.body;
+  console.log(addressId, userId)
 })
 module.exports = router;
