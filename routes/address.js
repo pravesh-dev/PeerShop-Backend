@@ -41,6 +41,10 @@ router.post("/create", async (req, res) => {
     });
     findUser.address.push(createdAddress._id);
     await findUser.save();
+    res.status(200).json({
+      success: true,
+      message: "Successfully created the address",
+    });
   }
   }catch(err){
     res.status(500).json({
@@ -84,7 +88,7 @@ router.post("/delete", async (req, res) => {
     // sending success response
     res.status(200).json({
       success: true,
-      message: "Successfully deleted the account",
+      message: "Successfully deleted the address",
     });
   }catch(err){
     res.status(500).json({
